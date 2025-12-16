@@ -11,4 +11,5 @@
 export type * from './models/User'
 export type * from './models/Account'
 export type * from './models/VerificationToken'
+export type * from './models/Project'
 export type * from './commonInputTypes'

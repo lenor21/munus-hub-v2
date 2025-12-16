@@ -28,12 +28,12 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 const items = [
   {
     title: "Dashboard",
-    url: "#",
+    url: "/dashboard",
     icon: Home,
   },
   {
     title: "Projects",
-    url: "#",
+    url: "/projects",
     icon: Inbox,
   },
   {
