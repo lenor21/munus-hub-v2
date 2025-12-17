@@ -71,6 +71,7 @@ model Project {
   status      String?
   priority    String?
   department  String?
+  progress    Int?
   startDate   DateTime?
   endDate     DateTime?
   budget      Int?

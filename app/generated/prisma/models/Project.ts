@@ -27,10 +27,12 @@ export type AggregateProject = {
 }
 
 export type ProjectAvgAggregateOutputType = {
+  progress: number | null
   budget: number | null
 }
 
 export type ProjectSumAggregateOutputType = {
+  progress: number | null
   budget: number | null
 }
 
@@ -41,6 +43,7 @@ export type ProjectMinAggregateOutputType = {
   status: string | null
   priority: string | null
   department: string | null
+  progress: number | null
   startDate: Date | null
   endDate: Date | null
   budget: number | null
@@ -56,6 +59,7 @@ export type ProjectMaxAggregateOutputType = {
   status: string | null
   priority: string | null
   department: string | null
+  progress: number | null
   startDate: Date | null
   endDate: Date | null
   budget: number | null
@@ -71,6 +75,7 @@ export type ProjectCountAggregateOutputType = {
   status: number
   priority: number
   department: number
+  progress: number
   startDate: number
   endDate: number
   budget: number
@@ -82,10 +87,12 @@ export type ProjectCountAggregateOutputType = {
 
 
 export type ProjectAvgAggregateInputType = {
+  progress?: true
   budget?: true
 }
 
 export type ProjectSumAggregateInputType = {
+  progress?: true
   budget?: true
 }
 
@@ -96,6 +103,7 @@ export type ProjectMinAggregateInputType = {
   status?: true
   priority?: true
   department?: true
+  progress?: true
   startDate?: true
   endDate?: true
   budget?: true
@@ -111,6 +119,7 @@ export type ProjectMaxAggregateInputType = {
   status?: true
   priority?: true
   department?: true
+  progress?: true
   startDate?: true
   endDate?: true
   budget?: true
@@ -126,6 +135,7 @@ export type ProjectCountAggregateInputType = {
   status?: true
   priority?: true
   department?: true
+  progress?: true
   startDate?: true
   endDate?: true
   budget?: true
@@ -228,6 +238,7 @@ export type ProjectGroupByOutputType = {
   status: string | null
   priority: string | null
   department: string | null
+  progress: number | null
   startDate: Date | null
   endDate: Date | null
   budget: number | null
@@ -266,6 +277,7 @@ export type ProjectWhereInput = {
   status?: Prisma.StringNullableFilter<"Project"> | string | null
   priority?: Prisma.StringNullableFilter<"Project"> | string | null
   department?: Prisma.StringNullableFilter<"Project"> | string | null
+  progress?: Prisma.IntNullableFilter<"Project"> | number | null
   startDate?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
   endDate?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
   budget?: Prisma.IntNullableFilter<"Project"> | number | null
@@ -282,6 +294,7 @@ export type ProjectOrderByWithRelationInput = {
   status?: Prisma.SortOrderInput | Prisma.SortOrder
   priority?: Prisma.SortOrderInput | Prisma.SortOrder
   department?: Prisma.SortOrderInput | Prisma.SortOrder
+  progress?: Prisma.SortOrderInput | Prisma.SortOrder
   startDate?: Prisma.SortOrderInput | Prisma.SortOrder
   endDate?: Prisma.SortOrderInput | Prisma.SortOrder
   budget?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -301,6 +314,7 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.StringNullableFilter<"Project"> | string | null
   priority?: Prisma.StringNullableFilter<"Project"> | string | null
   department?: Prisma.StringNullableFilter<"Project"> | string | null
+  progress?: Prisma.IntNullableFilter<"Project"> | number | null
   startDate?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
   endDate?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
   budget?: Prisma.IntNullableFilter<"Project"> | number | null
@@ -317,6 +331,7 @@ export type ProjectOrderByWithAggregationInput = {
   status?: Prisma.SortOrderInput | Prisma.SortOrder
   priority?: Prisma.SortOrderInput | Prisma.SortOrder
   department?: Prisma.SortOrderInput | Prisma.SortOrder
+  progress?: Prisma.SortOrderInput | Prisma.SortOrder
   startDate?: Prisma.SortOrderInput | Prisma.SortOrder
   endDate?: Prisma.SortOrderInput | Prisma.SortOrder
   budget?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -340,6 +355,7 @@ export type ProjectScalarWhereWithAggregatesInput = {
   status?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
   priority?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
   department?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  progress?: Prisma.IntNullableWithAggregatesFilter<"Project"> | number | null
   startDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Project"> | Date | string | null
   endDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Project"> | Date | string | null
   budget?: Prisma.IntNullableWithAggregatesFilter<"Project"> | number | null
@@ -355,6 +371,7 @@ export type ProjectCreateInput = {
   status?: string | null
   priority?: string | null
   department?: string | null
+  progress?: number | null
   startDate?: Date | string | null
   endDate?: Date | string | null
   budget?: number | null
@@ -370,6 +387,7 @@ export type ProjectUncheckedCreateInput = {
   status?: string | null
   priority?: string | null
   department?: string | null
+  progress?: number | null
   startDate?: Date | string | null
   endDate?: Date | string | null
   budget?: number | null
@@ -385,6 +403,7 @@ export type ProjectUpdateInput = {
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  progress?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -400,6 +419,7 @@ export type ProjectUncheckedUpdateInput = {
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  progress?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -415,6 +435,7 @@ export type ProjectCreateManyInput = {
   status?: string | null
   priority?: string | null
   department?: string | null
+  progress?: number | null
   startDate?: Date | string | null
   endDate?: Date | string | null
   budget?: number | null
@@ -430,6 +451,7 @@ export type ProjectUpdateManyMutationInput = {
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  progress?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -444,6 +466,7 @@ export type ProjectUncheckedUpdateManyInput = {
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  progress?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -469,6 +492,7 @@ export type ProjectCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   priority?: Prisma.SortOrder
   department?: Prisma.SortOrder
+  progress?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
   budget?: Prisma.SortOrder
@@ -478,6 +502,7 @@ export type ProjectCountOrderByAggregateInput = {
 }
 
 export type ProjectAvgOrderByAggregateInput = {
+  progress?: Prisma.SortOrder
   budget?: Prisma.SortOrder
 }
 
@@ -488,6 +513,7 @@ export type ProjectMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   priority?: Prisma.SortOrder
   department?: Prisma.SortOrder
+  progress?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
   budget?: Prisma.SortOrder
@@ -503,6 +529,7 @@ export type ProjectMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   priority?: Prisma.SortOrder
   department?: Prisma.SortOrder
+  progress?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
   budget?: Prisma.SortOrder
@@ -512,6 +539,7 @@ export type ProjectMinOrderByAggregateInput = {
 }
 
 export type ProjectSumOrderByAggregateInput = {
+  progress?: Prisma.SortOrder
   budget?: Prisma.SortOrder
 }
 
@@ -564,6 +592,7 @@ export type ProjectCreateWithoutAuthorInput = {
   status?: string | null
   priority?: string | null
   department?: string | null
+  progress?: number | null
   startDate?: Date | string | null
   endDate?: Date | string | null
   budget?: number | null
@@ -578,6 +607,7 @@ export type ProjectUncheckedCreateWithoutAuthorInput = {
   status?: string | null
   priority?: string | null
   department?: string | null
+  progress?: number | null
   startDate?: Date | string | null
   endDate?: Date | string | null
   budget?: number | null
@@ -621,6 +651,7 @@ export type ProjectScalarWhereInput = {
   status?: Prisma.StringNullableFilter<"Project"> | string | null
   priority?: Prisma.StringNullableFilter<"Project"> | string | null
   department?: Prisma.StringNullableFilter<"Project"> | string | null
+  progress?: Prisma.IntNullableFilter<"Project"> | number | null
   startDate?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
   endDate?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
   budget?: Prisma.IntNullableFilter<"Project"> | number | null
@@ -636,6 +667,7 @@ export type ProjectCreateManyAuthorInput = {
   status?: string | null
   priority?: string | null
   department?: string | null
+  progress?: number | null
   startDate?: Date | string | null
   endDate?: Date | string | null
   budget?: number | null
@@ -650,6 +682,7 @@ export type ProjectUpdateWithoutAuthorInput = {
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  progress?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -664,6 +697,7 @@ export type ProjectUncheckedUpdateWithoutAuthorInput = {
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  progress?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -678,6 +712,7 @@ export type ProjectUncheckedUpdateManyWithoutAuthorInput = {
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  progress?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -694,6 +729,7 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   status?: boolean
   priority?: boolean
   department?: boolean
+  progress?: boolean
   startDate?: boolean
   endDate?: boolean
   budget?: boolean
@@ -710,6 +746,7 @@ export type ProjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   status?: boolean
   priority?: boolean
   department?: boolean
+  progress?: boolean
   startDate?: boolean
   endDate?: boolean
   budget?: boolean
@@ -726,6 +763,7 @@ export type ProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   status?: boolean
   priority?: boolean
   department?: boolean
+  progress?: boolean
   startDate?: boolean
   endDate?: boolean
   budget?: boolean
@@ -742,6 +780,7 @@ export type ProjectSelectScalar = {
   status?: boolean
   priority?: boolean
   department?: boolean
+  progress?: boolean
   startDate?: boolean
   endDate?: boolean
   budget?: boolean
@@ -750,7 +789,7 @@ export type ProjectSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "status" | "priority" | "department" | "startDate" | "endDate" | "budget" | "authorId" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
+export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "status" | "priority" | "department" | "progress" | "startDate" | "endDate" | "budget" | "authorId" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
 export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -773,6 +812,7 @@ export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     status: string | null
     priority: string | null
     department: string | null
+    progress: number | null
     startDate: Date | null
     endDate: Date | null
     budget: number | null
@@ -1209,6 +1249,7 @@ export interface ProjectFieldRefs {
   readonly status: Prisma.FieldRef<"Project", 'String'>
   readonly priority: Prisma.FieldRef<"Project", 'String'>
   readonly department: Prisma.FieldRef<"Project", 'String'>
+  readonly progress: Prisma.FieldRef<"Project", 'Int'>
   readonly startDate: Prisma.FieldRef<"Project", 'DateTime'>
   readonly endDate: Prisma.FieldRef<"Project", 'DateTime'>
   readonly budget: Prisma.FieldRef<"Project", 'Int'>

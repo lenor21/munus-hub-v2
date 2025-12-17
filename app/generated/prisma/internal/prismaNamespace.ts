@@ -793,6 +793,7 @@ export const ProjectScalarFieldEnum = {
   status: 'status',
   priority: 'priority',
   department: 'department',
+  progress: 'progress',
   startDate: 'startDate',
   endDate: 'endDate',
   budget: 'budget',

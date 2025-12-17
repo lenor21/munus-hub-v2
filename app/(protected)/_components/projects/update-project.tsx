@@ -3,10 +3,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Plus, ChevronDownIcon } from "lucide-react";
+import { SquarePen, ChevronDownIcon } from "lucide-react";
 import { useTransition, useState } from "react";
-import { CreateProjectSchema } from "@/schemas";
-import { createProject } from "@/actions/projects";
+import { CreateProjectSchema, UpdateProjectSchema } from "@/schemas";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -45,8 +44,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { updateProject } from "@/actions/projects/update";
 
-export function CreateProject() {
+export function UpdateProject() {
   const [isPending, startTransition] = useTransition();
   const [isDialogOpen, setDialogIsOpen] = useState(false);
   const [openStartDate, setOpenStartDate] = useState(false);
@@ -54,32 +54,32 @@ export function CreateProject() {
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
 
-  const form = useForm<z.infer<typeof CreateProjectSchema>>({
-    resolver: zodResolver(CreateProjectSchema),
+  const form = useForm<z.infer<typeof UpdateProjectSchema>>({
+    resolver: zodResolver(UpdateProjectSchema),
     defaultValues: {
       title: "",
       description: "",
       status: "",
       priority: "",
       department: "",
-      startDate: undefined,
-      endDate: undefined,
+      startDate: null,
+      endDate: null,
       budget: undefined,
+      progress: undefined,
     },
   });
 
-  function onSubmit(values: z.infer<typeof CreateProjectSchema>) {
+  function onSubmit(values: z.infer<typeof UpdateProjectSchema>) {
     startTransition(async () => {
-      createProject(values).then((data) => {
+      updateProject(values).then((data) => {
         if (data.success) {
           form.reset();
+
           setStartDate(undefined);
           setEndDate(undefined);
 
           toast.success(data.success);
           setDialogIsOpen(false);
-        } else if (data.error) {
-          toast.error(data.error);
         }
       });
     });
@@ -88,18 +88,17 @@ export function CreateProject() {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setDialogIsOpen}>
       <DialogTrigger asChild>
-        <Button onClick={() => setDialogIsOpen(true)}>
-          <Plus />
-          Create project
+        <Button variant="outline" onClick={() => setDialogIsOpen(true)}>
+          <SquarePen />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px]">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <DialogHeader>
-              <DialogTitle>Create New Project</DialogTitle>
+              <DialogTitle>Edit project</DialogTitle>
               <DialogDescription>
-                Fill in the details below to create a new project for your team.
+                Update the project details below.
               </DialogDescription>
             </DialogHeader>
 
@@ -264,6 +263,41 @@ export function CreateProject() {
 
             <FormField
               control={form.control}
+              name="progress"
+              render={({ field }) => (
+                <FormItem className="grid grid-rows-1 grid-cols-4">
+                  <FormLabel className="col-span-1">Progress</FormLabel>
+                  <FormControl className="col-span-3">
+                    <Input
+                      placeholder="shadcn"
+                      {...field}
+                      type="number"
+                      onChange={(e) => {
+                        const rawValue = e.target.value;
+
+                        if (rawValue === "") {
+                          field.onChange(undefined);
+                          return;
+                        }
+
+                        let numValue = Number(rawValue);
+                        if (numValue > 100) numValue = 100;
+                        if (numValue < 1) numValue = 1;
+
+                        field.onChange(numValue);
+                      }}
+                      value={field.value ?? ""}
+                      min={1}
+                      max={100}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
               name="startDate"
               render={({ field }) => (
                 <FormItem className="grid grid-rows-1 grid-cols-4">
@@ -350,9 +384,7 @@ export function CreateProject() {
               <DialogClose asChild>
                 <Button variant="outline">Cancel</Button>
               </DialogClose>
-              <Button type="submit" disabled={isPending}>
-                Save changes
-              </Button>
+              <Button type="submit">Save changes</Button>
             </DialogFooter>
           </form>
         </Form>

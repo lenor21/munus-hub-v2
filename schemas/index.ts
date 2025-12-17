@@ -46,14 +46,44 @@ export const CreateProjectSchema = z.object({
   priority: z.string().or(z.literal("")),
   department: z.string().or(z.literal("")),
 
-  startDate: z.date().or(z.literal("")),
-  endDate: z.date().or(z.literal("")),
+  startDate: z.date().nullable().optional(),
+  endDate: z.date().nullable().optional(),
 
-  budget: z
-    .number()
-    .int()
-    .min(0, {
-      message: "Budget cannot be negative.",
+  budget: z.number().int().min(0, {
+    message: "Budget cannot be negative.",
+  }),
+});
+
+export const UpdateProjectSchema = z.object({
+  title: z
+    .string()
+    .min(2, {
+      message: "Project name must be at least 2 characters.",
+    })
+    .max(100, {
+      message: "Project name cannot exceed 100 characters.",
+    }),
+
+  description: z
+    .string()
+    .max(500, {
+      message: "Description cannot exceed 500 characters.",
     })
     .or(z.literal("")),
+
+  status: z.string().or(z.literal("")),
+  priority: z.string().or(z.literal("")),
+  department: z.string().or(z.literal("")),
+
+  startDate: z.date().nullable().optional(),
+  endDate: z.date().nullable().optional(),
+
+  budget: z.number().int().min(0, {
+    message: "Budget cannot be negative.",
+  }),
+  progress: z
+    .number()
+    .int()
+    .min(0, { message: "Progress cannot be less than 0%." })
+    .max(100, { message: "Progress cannot exceed 100%." }),
 });

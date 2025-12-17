@@ -11,8 +11,11 @@ import { Input } from "@/components/ui/input";
 import { ProjectCard } from "../_components/projects/project-card";
 import { CreateProject } from "../_components/projects/create-project";
 import { Search } from "lucide-react";
+import { getProjects } from "@/actions/projects";
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const projectsData = await getProjects();
+
   return (
     <div className="">
       <div className="flex justify-between items-center gap-x-4">
@@ -67,18 +70,35 @@ export default function ProjectsPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 py-10">
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
+        {projectsData && projectsData.length > 0 ? (
+          projectsData?.map((data) => {
+            return (
+              <ProjectCard
+                key={data.id}
+                title={data.title}
+                description={data.description || ""}
+                progress={
+                  typeof data.progress === "number"
+                    ? data.progress
+                    : parseInt(data.progress || "0", 10)
+                }
+                startDate={
+                  data.startDate instanceof Date
+                    ? data.startDate
+                    : new Date(data.startDate || "")
+                }
+                endDate={
+                  data.endDate instanceof Date
+                    ? data.endDate
+                    : new Date(data.endDate || "")
+                }
+                budget={data.budget || 0}
+              />
+            );
+          })
+        ) : (
+          <h1>No projects created</h1>
+        )}
       </div>
     </div>
   );
