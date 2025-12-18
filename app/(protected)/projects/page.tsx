@@ -12,9 +12,13 @@ import { ProjectCard } from "../_components/projects/project-card";
 import { CreateProject } from "../_components/projects/create-project";
 import { Search } from "lucide-react";
 import { getProjects } from "@/actions/projects";
+import { getUsers } from "@/data/user";
 
 export default async function ProjectsPage() {
   const projectsData = await getProjects();
+
+  const users = await getUsers();
+  console.log(users);
 
   return (
     <div className="">
@@ -23,7 +27,7 @@ export default async function ProjectsPage() {
           <h2 className="text-3xl font-bold text-gray-900">Projects</h2>
           <p className="text-gray-600">Manage and track all company projects</p>
         </div>
-        <CreateProject />
+        <CreateProject users={users || []} />
       </div>
 
       <div className="grid mt-10 grid-rows-2 grid-cols-2 gap-2 md:grid-rows-1 md:grid-cols-4">
@@ -75,6 +79,7 @@ export default async function ProjectsPage() {
             return (
               <ProjectCard
                 key={data.id}
+                id={data.id}
                 title={data.title}
                 description={data.description || ""}
                 progress={
@@ -93,6 +98,9 @@ export default async function ProjectsPage() {
                     : new Date(data.endDate || "")
                 }
                 budget={data.budget || 0}
+                status={data.status || ""}
+                priority={data.priority || ""}
+                department={data.department || ""}
               />
             );
           })

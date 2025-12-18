@@ -12,24 +12,53 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { UpdateProject } from "./update-project";
-
-interface ProjectProps {
-  title: string;
-  description: string;
-  progress: number;
-  startDate: Date;
-  endDate: Date;
-  budget: number;
-}
+import { UpdateProjectSchema } from "@/schemas";
+import { ProjectProps } from "@/types/project";
+import { useTransition } from "react";
+import { deleteProject } from "@/actions/projects/delete";
+import { toast } from "sonner";
 
 export function ProjectCard({
+  id,
   title,
   description,
   progress,
   startDate,
   endDate,
   budget,
+  status,
+  priority,
+  department,
 }: ProjectProps) {
+  const [isPending, startTransition] = useTransition();
+
+  const handleDelete = () => {
+    startTransition(() => {
+      toast.warning("Continue to delete?", {
+        action: {
+          label: "Delete",
+          onClick: () => {
+            deleteProject(id).then((data) => {
+              if (data.success) {
+                toast.success(data.success);
+              } else if (data.error) {
+                toast.error(data.error);
+              }
+            });
+          },
+        },
+        cancel: {
+          label: "Cancel",
+          onClick: () => {
+            toast.dismiss();
+          },
+        },
+        duration: 10000,
+        id: "delete-confirm",
+      });
+    });
+  };
+
   return (
     <Card className="w-full grid">
       <CardHeader>
@@ -41,8 +70,26 @@ export function ProjectCard({
             </p>
           </div>
           <div className="flex gap-x-1">
-            <UpdateProject />
-            <Button variant="outline" className="text-[#e7000b]">
+            <UpdateProject
+              project={{
+                id,
+                title,
+                description,
+                progress,
+                startDate,
+                endDate,
+                budget,
+                status,
+                priority,
+                department,
+              }}
+            />
+            <Button
+              variant="outline"
+              className="text-[#e7000b]"
+              onClick={handleDelete}
+              disabled={isPending}
+            >
               <Trash2 />
             </Button>
           </div>

@@ -45,8 +45,24 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  MultiSelect,
+  MultiSelectContent,
+  MultiSelectGroup,
+  MultiSelectItem,
+  MultiSelectTrigger,
+  MultiSelectValue,
+} from "@/components/ui/multi-select";
 
-export function CreateProject() {
+interface MemberProps {
+  users: {
+    id: string;
+    name: string | null;
+    email: string | null;
+  }[];
+}
+
+export function CreateProject({ users }: MemberProps) {
   const [isPending, startTransition] = useTransition();
   const [isDialogOpen, setDialogIsOpen] = useState(false);
   const [openStartDate, setOpenStartDate] = useState(false);
@@ -55,7 +71,7 @@ export function CreateProject() {
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
 
   const form = useForm<z.infer<typeof CreateProjectSchema>>({
-    resolver: zodResolver(CreateProjectSchema),
+    resolver: zodResolver(CreateProjectSchema) as any,
     defaultValues: {
       title: "",
       description: "",
@@ -64,11 +80,12 @@ export function CreateProject() {
       department: "",
       startDate: undefined,
       endDate: undefined,
-      budget: undefined,
+      budget: 0,
+      teamMembers: [],
     },
   });
 
-  function onSubmit(values: z.infer<typeof CreateProjectSchema>) {
+  const onSubmit = (values: z.infer<typeof CreateProjectSchema>) => {
     startTransition(async () => {
       createProject(values).then((data) => {
         if (data.success) {
@@ -83,7 +100,7 @@ export function CreateProject() {
         }
       });
     });
-  }
+  };
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setDialogIsOpen}>
@@ -341,6 +358,45 @@ export function CreateProject() {
                       />
                     </PopoverContent>
                   </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="teamMembers"
+              render={({ field }) => (
+                <FormItem className="grid grid-rows-1 grid-cols-4">
+                  <FormLabel className="col-span-1">Team members</FormLabel>
+                  <FormControl>
+                    <MultiSelect
+                      values={
+                        field.value?.map((member: any) => member.userId) || []
+                      }
+                      onValuesChange={(selectedIds) => {
+                        field.onChange(
+                          selectedIds.map((id) => ({
+                            userId: id,
+                            role: "Member",
+                          }))
+                        );
+                      }}
+                    >
+                      <MultiSelectTrigger className="w-full col-span-3">
+                        <MultiSelectValue placeholder="Select frameworks..." />
+                      </MultiSelectTrigger>
+                      <MultiSelectContent>
+                        <MultiSelectGroup>
+                          {users.map((user) => (
+                            <MultiSelectItem key={user.id} value={user.id}>
+                              {user.name || user.email || "Unknown User"}
+                            </MultiSelectItem>
+                          ))}
+                        </MultiSelectGroup>
+                      </MultiSelectContent>
+                    </MultiSelect>
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}

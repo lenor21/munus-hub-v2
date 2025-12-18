@@ -27,3 +27,19 @@ export const getUserById = async (id: string) => {
     return null;
   }
 };
+
+export const getUsers = async () => {
+  try {
+    const users = prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+      },
+    });
+
+    return users;
+  } catch (error) {
+    return null;
+  }
+};

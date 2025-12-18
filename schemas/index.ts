@@ -52,6 +52,14 @@ export const CreateProjectSchema = z.object({
   budget: z.number().int().min(0, {
     message: "Budget cannot be negative.",
   }),
+  teamMembers: z
+    .array(
+      z.object({
+        userId: z.string(),
+        role: z.string(),
+      })
+    )
+    .default([]),
 });
 
 export const UpdateProjectSchema = z.object({

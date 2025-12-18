@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { SquarePen, ChevronDownIcon } from "lucide-react";
-import { useTransition, useState } from "react";
+import { useTransition, useState, useEffect } from "react";
 import { CreateProjectSchema, UpdateProjectSchema } from "@/schemas";
 import { toast } from "sonner";
 
@@ -45,8 +45,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { updateProject } from "@/actions/projects/update";
+import { ProjectProps } from "@/types/project";
 
-export function UpdateProject() {
+export function UpdateProject({ project }: { project: ProjectProps }) {
   const [isPending, startTransition] = useTransition();
   const [isDialogOpen, setDialogIsOpen] = useState(false);
   const [openStartDate, setOpenStartDate] = useState(false);
@@ -57,21 +58,21 @@ export function UpdateProject() {
   const form = useForm<z.infer<typeof UpdateProjectSchema>>({
     resolver: zodResolver(UpdateProjectSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      status: "",
-      priority: "",
-      department: "",
-      startDate: null,
-      endDate: null,
-      budget: undefined,
-      progress: undefined,
+      title: project.title ?? "",
+      description: project.description ?? "",
+      budget: project.budget ?? "",
+      progress: project.progress ?? "",
+      startDate: project.startDate ?? "",
+      endDate: project.endDate ?? "",
+      status: project.status ?? "",
+      priority: project.priority ?? "",
+      department: project.department ?? "",
     },
   });
 
   function onSubmit(values: z.infer<typeof UpdateProjectSchema>) {
     startTransition(async () => {
-      updateProject(values).then((data) => {
+      updateProject(values, project.id).then((data) => {
         if (data.success) {
           form.reset();
 
@@ -80,13 +81,53 @@ export function UpdateProject() {
 
           toast.success(data.success);
           setDialogIsOpen(false);
+          handleDialogChange(false);
         }
       });
     });
   }
 
+  const handleDialogChange = (open: boolean) => {
+    setDialogIsOpen(open);
+
+    if (!open) {
+      form.reset({
+        title: project.title,
+        description: project.description,
+        budget: project.budget,
+        progress: project.progress,
+        startDate: project.startDate,
+        endDate: project.endDate,
+        status: project.status,
+        priority: project.priority,
+        department: project.department,
+      });
+      setStartDate(project.startDate);
+      setEndDate(project.endDate);
+    }
+  };
+
+  useEffect(() => {
+    if (project) {
+      form.reset({
+        title: project.title,
+        description: project.description,
+        budget: project.budget,
+        progress: project.progress,
+        startDate: project.startDate,
+        endDate: project.endDate,
+        status: project.status,
+        priority: project.priority,
+        department: project.department,
+      });
+
+      setStartDate(project.startDate);
+      setEndDate(project.endDate);
+    }
+  }, [project, form]);
+
   return (
-    <Dialog open={isDialogOpen} onOpenChange={setDialogIsOpen}>
+    <Dialog open={isDialogOpen} onOpenChange={handleDialogChange}>
       <DialogTrigger asChild>
         <Button variant="outline" onClick={() => setDialogIsOpen(true)}>
           <SquarePen />

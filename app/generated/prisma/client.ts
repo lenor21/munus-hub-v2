@@ -59,3 +59,8 @@ export type VerificationToken = Prisma.VerificationTokenModel
  * 
  */
 export type Project = Prisma.ProjectModel
+/**
+ * Model ProjectMember
+ * 
+ */
+export type ProjectMember = Prisma.ProjectMemberModel
