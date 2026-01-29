@@ -257,13 +257,18 @@ export function CreateProject({ users }: MemberProps) {
                     <Input
                       placeholder="shadcn"
                       {...field}
-                      type="number"
+                      type="text"
+                      inputMode="numeric"
                       onChange={(e) => {
                         const rawValue = e.target.value;
 
                         if (rawValue === "") {
                           field.onChange(undefined);
                           return;
+                        }
+
+                        if (!/^\d*$/.test(rawValue)) {
+                          return; // Stop here and don't update state if it's not a number
                         }
 
                         let numValue = Number(rawValue);
@@ -379,7 +384,7 @@ export function CreateProject({ users }: MemberProps) {
                           selectedIds.map((id) => ({
                             userId: id,
                             role: "Member",
-                          }))
+                          })),
                         );
                       }}
                     >

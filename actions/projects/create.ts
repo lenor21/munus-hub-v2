@@ -7,7 +7,7 @@ import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
 
 export async function createProject(
-  values: z.infer<typeof CreateProjectSchema>
+  values: z.infer<typeof CreateProjectSchema>,
 ) {
   const validatedFields = CreateProjectSchema.safeParse(values);
   console.log(validatedFields);
@@ -35,57 +35,41 @@ export async function createProject(
   } = validatedFields.data;
 
   try {
-    const newProject = await prisma.$transaction(async (tx) => {
-      // Create the project first
-      const project = await tx.project.create({
-        data: {
-          title,
-          description,
-          status,
-          priority,
-          department,
-          startDate,
-          endDate,
-          budget,
-          authorId: userId,
-        },
-      });
-
-      // 3. Create explicit join table records
-      if (teamMembers && teamMembers.length > 0) {
-        await tx.projectMember.createMany({
-          data: teamMembers.map((member) => ({
-            projectId: project.id,
+    const newProject = await prisma.project.create({
+      data: {
+        title,
+        description,
+        status,
+        priority,
+        department,
+        startDate,
+        endDate,
+        budget,
+        authorId: userId,
+        // "teamMembers" is the relation name in your Project table
+        teamMembers: {
+          create: teamMembers.map((member) => ({
             userId: member.userId,
             role: member.role || "Member",
+            // You do NOT need to provide projectId here;
+            // Prisma injects it automatically.
           })),
-        });
-      }
-
-      return project;
+        },
+      },
+      // This tells Prisma to fetch the records from the
+      // DIFFERENT table (ProjectMember) and include them in the result.
+      include: {
+        teamMembers: true,
+      },
     });
 
     revalidatePath("/projects");
-    return { success: "Project created successfully!" };
+    return {
+      success: "Project created successfully!",
+      data: newProject,
+    };
   } catch (error) {
+    console.error(error);
     return { error: "Failed to create project." };
   }
-
-  // await prisma.project.create({
-  //   data: {
-  //     title,
-  //     description,
-  //     status,
-  //     priority,
-  //     department,
-  //     startDate,
-  //     endDate,
-  //     budget,
-  //     authorId: session.user.id,
-  //   },
-  // });
-
-  // revalidatePath("/projects");
-
-  // return { success: "Project created successfully!" };
 }

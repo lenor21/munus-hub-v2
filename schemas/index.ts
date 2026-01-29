@@ -40,11 +40,11 @@ export const CreateProjectSchema = z.object({
     .max(500, {
       message: "Description cannot exceed 500 characters.",
     })
-    .or(z.literal("")),
+    .optional(),
 
-  status: z.string().or(z.literal("")),
-  priority: z.string().or(z.literal("")),
-  department: z.string().or(z.literal("")),
+  status: z.string().optional(),
+  priority: z.string().optional(),
+  department: z.string().optional(),
 
   startDate: z.date().nullable().optional(),
   endDate: z.date().nullable().optional(),
@@ -57,7 +57,7 @@ export const CreateProjectSchema = z.object({
       z.object({
         userId: z.string(),
         role: z.string(),
-      })
+      }),
     )
     .default([]),
 });
@@ -77,11 +77,11 @@ export const UpdateProjectSchema = z.object({
     .max(500, {
       message: "Description cannot exceed 500 characters.",
     })
-    .or(z.literal("")),
+    .optional(),
 
-  status: z.string().or(z.literal("")),
-  priority: z.string().or(z.literal("")),
-  department: z.string().or(z.literal("")),
+  status: z.string().optional(),
+  priority: z.string().optional(),
+  department: z.string().optional(),
 
   startDate: z.date().nullable().optional(),
   endDate: z.date().nullable().optional(),

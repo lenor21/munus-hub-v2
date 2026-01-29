@@ -64,8 +64,10 @@ export function ProjectCard({
       <CardHeader>
         <div className="flex gap-x-2 justify-between">
           <div>
-            <p className="font-semibold text-lg mb-2">{title}</p>
-            <p className="text-muted-foreground text-sm line-clamp-2">
+            <p className="font-semibold text-lg mb-2 line-clamp-2 break-all">
+              {title}
+            </p>
+            <p className="text-muted-foreground text-sm line-clamp-2 break-all">
               {description}
             </p>
           </div>
