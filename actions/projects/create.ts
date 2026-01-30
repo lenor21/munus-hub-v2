@@ -10,7 +10,7 @@ export async function createProject(
   values: z.infer<typeof CreateProjectSchema>,
 ) {
   const validatedFields = CreateProjectSchema.safeParse(values);
-  console.log(validatedFields);
+
   if (!validatedFields.success) {
     return { error: "Invalid fields!" };
   }

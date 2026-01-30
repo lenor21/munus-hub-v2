@@ -8,6 +8,7 @@ import { useTransition, useState } from "react";
 import { CreateProjectSchema } from "@/schemas";
 import { createProject } from "@/actions/projects";
 import { toast } from "sonner";
+import { MemberProps } from "@/types/project";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -53,14 +54,6 @@ import {
   MultiSelectTrigger,
   MultiSelectValue,
 } from "@/components/ui/multi-select";
-
-interface MemberProps {
-  users: {
-    id: string;
-    name: string | null;
-    email: string | null;
-  }[];
-}
 
 export function CreateProject({ users }: MemberProps) {
   const [isPending, startTransition] = useTransition();

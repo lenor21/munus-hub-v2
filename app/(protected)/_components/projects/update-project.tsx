@@ -55,7 +55,13 @@ import {
   MultiSelectValue,
 } from "@/components/ui/multi-select";
 
-export function UpdateProject({ project }: { project: ProjectProps }) {
+export function UpdateProject({
+  project,
+  users = [],
+}: {
+  project: ProjectProps;
+  users?: any[];
+}) {
   const [isPending, startTransition] = useTransition();
   const [isDialogOpen, setDialogIsOpen] = useState(false);
   const [openStartDate, setOpenStartDate] = useState(false);
@@ -66,15 +72,20 @@ export function UpdateProject({ project }: { project: ProjectProps }) {
   const form = useForm<z.infer<typeof UpdateProjectSchema>>({
     resolver: zodResolver(UpdateProjectSchema),
     defaultValues: {
-      title: project.title ?? "",
-      description: project.description ?? "",
-      budget: project.budget ?? "",
-      progress: project.progress ?? "",
-      startDate: project.startDate ?? "",
-      endDate: project.endDate ?? "",
-      status: project.status ?? "",
-      priority: project.priority ?? "",
-      department: project.department ?? "",
+      title: project.title ?? undefined,
+      description: project.description ?? undefined,
+      budget: project.budget ?? undefined,
+      progress: project.progress ?? undefined,
+      startDate: project.startDate ?? undefined,
+      endDate: project.endDate ?? undefined,
+      status: project.status ?? undefined,
+      priority: project.priority ?? undefined,
+      department: project.department ?? undefined,
+      teamMembers:
+        project.teamMembers?.map((m) => ({
+          userId: m.userId,
+          role: m.role,
+        })) || [],
     },
   });
 
@@ -100,15 +111,20 @@ export function UpdateProject({ project }: { project: ProjectProps }) {
 
     if (!open) {
       form.reset({
-        title: project.title,
-        description: project.description,
-        budget: project.budget,
-        progress: project.progress,
-        startDate: project.startDate,
-        endDate: project.endDate,
-        status: project.status,
-        priority: project.priority,
-        department: project.department,
+        title: project.title ?? undefined,
+        description: project.description ?? undefined,
+        budget: project.budget ?? undefined,
+        progress: project.progress ?? undefined,
+        startDate: project.startDate ?? undefined,
+        endDate: project.endDate ?? undefined,
+        status: project.status ?? undefined,
+        priority: project.priority ?? undefined,
+        department: project.department ?? undefined,
+        teamMembers:
+          project.teamMembers?.map((m) => ({
+            userId: m.userId,
+            role: m.role,
+          })) || [],
       });
       setStartDate(project.startDate);
       setEndDate(project.endDate);
@@ -118,19 +134,24 @@ export function UpdateProject({ project }: { project: ProjectProps }) {
   useEffect(() => {
     if (project) {
       form.reset({
-        title: project.title,
-        description: project.description,
-        budget: project.budget,
-        progress: project.progress,
-        startDate: project.startDate,
-        endDate: project.endDate,
-        status: project.status,
-        priority: project.priority,
-        department: project.department,
+        title: project.title ?? undefined,
+        description: project.description ?? undefined,
+        budget: project.budget ?? undefined,
+        progress: project.progress ?? undefined,
+        startDate: project.startDate ?? undefined,
+        endDate: project.endDate ?? undefined,
+        status: project.status ?? undefined,
+        priority: project.priority ?? undefined,
+        department: project.department ?? undefined,
+        teamMembers:
+          project.teamMembers?.map((m) => ({
+            userId: m.userId,
+            role: m.role,
+          })) || [],
       });
 
-      setStartDate(project.startDate);
-      setEndDate(project.endDate);
+      setStartDate(project.startDate ?? undefined);
+      setEndDate(project.endDate ?? undefined);
     }
   }, [project, form]);
 
@@ -433,7 +454,7 @@ export function UpdateProject({ project }: { project: ProjectProps }) {
               )}
             />
 
-            {/* <FormField
+            <FormField
               control={form.control}
               name="teamMembers"
               render={({ field }) => (
@@ -441,6 +462,7 @@ export function UpdateProject({ project }: { project: ProjectProps }) {
                   <FormLabel className="col-span-1">Team members</FormLabel>
                   <FormControl>
                     <MultiSelect
+                      // Ensure field.value exists before mapping
                       values={
                         field.value?.map((member: any) => member.userId) || []
                       }
@@ -454,23 +476,29 @@ export function UpdateProject({ project }: { project: ProjectProps }) {
                       }}
                     >
                       <MultiSelectTrigger className="w-full col-span-3">
-                        <MultiSelectValue placeholder="Select frameworks..." />
+                        {/* Display count or names here */}
+                        <MultiSelectValue placeholder="Select team members..." />
                       </MultiSelectTrigger>
                       <MultiSelectContent>
                         <MultiSelectGroup>
-                          {users.map((user) => (
-                            <MultiSelectItem key={user.id} value={user.id}>
-                              {user.name || user.email || "Unknown User"}
-                            </MultiSelectItem>
-                          ))}
+                          {users.length > 0 ? (
+                            users.map((user) => (
+                              <MultiSelectItem key={user.id} value={user.id}>
+                                {user.name || user.email}
+                              </MultiSelectItem>
+                            ))
+                          ) : (
+                            <div className="p-2 text-sm text-muted-foreground">
+                              No users found
+                            </div>
+                          )}
                         </MultiSelectGroup>
                       </MultiSelectContent>
                     </MultiSelect>
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
-            /> */}
+            />
 
             <DialogFooter>
               <DialogClose asChild>

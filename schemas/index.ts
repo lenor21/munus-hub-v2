@@ -94,4 +94,12 @@ export const UpdateProjectSchema = z.object({
     .int()
     .min(0, { message: "Progress cannot be less than 0%." })
     .max(100, { message: "Progress cannot exceed 100%." }),
+  teamMembers: z
+    .array(
+      z.object({
+        userId: z.string(),
+        role: z.string(),
+      }),
+    )
+    .optional(),
 });

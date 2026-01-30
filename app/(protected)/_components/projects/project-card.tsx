@@ -1,6 +1,6 @@
 "use client";
 
-import { SquarePen, Trash2, UsersRound, Calendar, Clock } from "lucide-react";
+import { Trash2, UsersRound, Calendar, Clock } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -12,11 +12,26 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { UpdateProject } from "./update-project";
-import { UpdateProjectSchema } from "@/schemas";
 import { ProjectProps } from "@/types/project";
 import { useTransition } from "react";
 import { deleteProject } from "@/actions/projects/delete";
 import { toast } from "sonner";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarGroup,
+  AvatarGroupCount,
+  AvatarImage,
+} from "@/components/ui/avatar";
+import Link from "next/link";
+
+interface ProjectCardWithUsers extends ProjectProps {
+  users: {
+    id: string;
+    name: string | null;
+    email: string;
+  }[];
+}
 
 export function ProjectCard({
   id,
@@ -29,7 +44,9 @@ export function ProjectCard({
   status,
   priority,
   department,
-}: ProjectProps) {
+  teamMembers,
+  users,
+}: ProjectCardWithUsers) {
   const [isPending, startTransition] = useTransition();
 
   const handleDelete = () => {
@@ -59,6 +76,18 @@ export function ProjectCard({
     });
   };
 
+  const statusConfig: Record<string, { label: string; color: string }> = {
+    planning: { label: "Planning", color: "bg-blue-500" },
+    "in-progress": { label: "In progress", color: "bg-yellow-500" },
+    active: { label: "Active", color: "bg-green-600" },
+    completed: { label: "Completed", color: "bg-gray-500" },
+  };
+
+  const currentStatus = statusConfig[status as keyof typeof statusConfig] || {
+    label: status,
+    color: "bg-slate-500",
+  };
+
   return (
     <Card className="w-full grid">
       <CardHeader>
@@ -73,6 +102,7 @@ export function ProjectCard({
           </div>
           <div className="flex gap-x-1">
             <UpdateProject
+              users={users}
               project={{
                 id,
                 title,
@@ -84,6 +114,7 @@ export function ProjectCard({
                 status,
                 priority,
                 department,
+                teamMembers,
               }}
             />
             <Button
@@ -97,7 +128,11 @@ export function ProjectCard({
           </div>
         </div>
         <div>
-          <Badge className="py-1 bg-[#f54a00]">In progress</Badge>
+          {status && (
+            <Badge className={`py-1 ${currentStatus.color}`}>
+              {currentStatus.label}
+            </Badge>
+          )}
         </div>
       </CardHeader>
       <CardContent>
@@ -112,7 +147,31 @@ export function ProjectCard({
         <div className="mt-5">
           <div className="flex items-center gap-2 mb-2">
             <UsersRound className="h-4 w-4 text-muted-foreground" />
-            <span className="text-sm font-medium">Team 14</span>
+            <span className="text-sm font-medium">
+              Team ({teamMembers.length})
+            </span>
+          </div>
+
+          <div className="mt-2 mb-5">
+            <AvatarGroup>
+              {teamMembers.slice(0, 3).map((member, index) => (
+                <Avatar key={member.user?.id}>
+                  <AvatarImage
+                    src={member.user?.image || ""}
+                    alt={member.user?.name || "Member"}
+                  />
+                  <AvatarFallback className="border-2">
+                    {member.user?.name?.charAt(0) ||
+                      member.user?.email?.charAt(0) ||
+                      "U"}
+                  </AvatarFallback>
+                </Avatar>
+              ))}
+
+              {teamMembers.length > 3 && (
+                <AvatarGroupCount>+{teamMembers.length - 3}</AvatarGroupCount>
+              )}
+            </AvatarGroup>
           </div>
 
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
@@ -135,8 +194,12 @@ export function ProjectCard({
         </div>
       </CardContent>
       <CardFooter>
-        <div className="border-t border-border w-full">
-          <p className="w-full text-sm font-medium text-end pt-2">
+        <div className="border-t border-border w-full flex pt-3 items-center">
+          <Button variant="outline" asChild>
+            <Link href={`/projects/${id}`}>View project</Link>
+          </Button>
+
+          <p className="w-full text-sm font-medium text-end">
             {new Intl.NumberFormat("en-US", {
               style: "currency",
               currency: "USD",
