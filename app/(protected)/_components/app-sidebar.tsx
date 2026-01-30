@@ -24,16 +24,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { NavUser } from "@/app/(protected)/_components/nav-user";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { usePathname } from "next/navigation";
 
 const items = [
   {
     title: "Dashboard",
-    url: "#",
+    url: "/dashboard",
     icon: Home,
   },
   {
     title: "Projects",
-    url: "#",
+    url: "/projects",
     icon: Inbox,
   },
   {
@@ -59,6 +60,7 @@ const items = [
 ];
 
 export function AppSidebar() {
+  const pathname = usePathname();
   const currentUser = useCurrentUser();
 
   const user = {
@@ -90,16 +92,27 @@ export function AppSidebar() {
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {items.map((item) => {
+                const isActive = pathname === item.url;
+
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild isActive={isActive}>
+                      <a
+                        href={item.url}
+                        className={
+                          isActive
+                            ? "bg-[#e7000b] text-sidebar-accent-foreground"
+                            : ""
+                        }
+                      >
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
