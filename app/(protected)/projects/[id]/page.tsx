@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Overview } from "@/app/(protected)/_components/projects/overview";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -21,8 +22,6 @@ export default async function ProjectDetailPage({ params }: Props) {
   const { id } = await params;
 
   const [project, users] = await Promise.all([getProject(id), getUsers()]);
-
-  console.log(project);
 
   if (!project || "error" in project) {
     return <div>Project not found</div>;
@@ -77,7 +76,7 @@ export default async function ProjectDetailPage({ params }: Props) {
       </div>
 
       <div className="flex gap-y-20 justify-between items-center">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2 font-serif">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">
           {project.title}
         </h1>
 
@@ -146,7 +145,7 @@ export default async function ProjectDetailPage({ params }: Props) {
       </div>
 
       <div className="mt-10">
-        <Tabs defaultValue="overview" className="w-full">
+        <Tabs defaultValue="overview" className="w-full gap-5">
           <TabsList>
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="team">Team</TabsTrigger>
@@ -154,18 +153,7 @@ export default async function ProjectDetailPage({ params }: Props) {
             <TabsTrigger value="documents">Documents</TabsTrigger>
           </TabsList>
           <TabsContent value="overview">
-            <Card>
-              <CardHeader>
-                <CardTitle>Overview</CardTitle>
-                <CardDescription>
-                  View your key metrics and recent project activity. Track
-                  progress across all your active projects.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="text-muted-foreground text-sm">
-                You have 12 active projects and 3 pending tasks.
-              </CardContent>
-            </Card>
+            <Overview projectId={project.id} />
           </TabsContent>
           <TabsContent value="team">
             <Card>

@@ -73,3 +73,22 @@ export async function createProject(
     return { error: "Failed to create project." };
   }
 }
+
+export async function createOverview(projectId: string, feature: string) {
+  try {
+    const newOverview = await prisma.projectOverview.create({
+      data: {
+        projectId: projectId,
+        feature: feature,
+        order: 0,
+      },
+    });
+
+    revalidatePath(`/projects/${projectId}`);
+
+    return { success: "Feature added successfully!", data: newOverview };
+  } catch (error) {
+    console.error("Failed to create feature:", error);
+    return { error: "Something went wrong. Please try again." };
+  }
+}
