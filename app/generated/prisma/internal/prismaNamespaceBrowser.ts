@@ -55,7 +55,8 @@ export const ModelName = {
   Account: 'Account',
   VerificationToken: 'VerificationToken',
   Project: 'Project',
-  ProjectMember: 'ProjectMember'
+  ProjectMember: 'ProjectMember',
+  ProjectOverview: 'ProjectOverview'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -146,6 +147,19 @@ export const ProjectMemberScalarFieldEnum = {
 } as const
 
 export type ProjectMemberScalarFieldEnum = (typeof ProjectMemberScalarFieldEnum)[keyof typeof ProjectMemberScalarFieldEnum]
+
+
+export const ProjectOverviewScalarFieldEnum = {
+  id: 'id',
+  feature: 'feature',
+  content: 'content',
+  order: 'order',
+  projectId: 'projectId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProjectOverviewScalarFieldEnum = (typeof ProjectOverviewScalarFieldEnum)[keyof typeof ProjectOverviewScalarFieldEnum]
 
 
 export const SortOrder = {

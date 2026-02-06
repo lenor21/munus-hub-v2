@@ -33,3 +33,24 @@ export async function getProjects(
     },
   });
 }
+
+export async function getProject(id: string) {
+  try {
+    const project = await prisma.project.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        teamMembers: {
+          include: {
+            user: true,
+          },
+        },
+      },
+    });
+
+    return project;
+  } catch (error) {
+    return { error: "Something went wrong. Could not get the project!" };
+  }
+}

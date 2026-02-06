@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { UpdateProject } from "./update-project";
+import { UpdateProject } from "@/app/(protected)/_components/projects/update-project";
 import { ProjectProps } from "@/types/project";
 import { useTransition } from "react";
 import { deleteProject } from "@/actions/projects/delete";

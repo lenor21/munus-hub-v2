@@ -82,7 +82,8 @@ model Project {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  author User @relation("ProjectAuthor", fields: [authorId], references: [id])
+  author           User              @relation("ProjectAuthor", fields: [authorId], references: [id])
+  projectOverviews ProjectOverview[]
 }
 
 model ProjectMember {
@@ -97,4 +98,17 @@ model ProjectMember {
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
   @@unique([userId, projectId])
+}
+
+model ProjectOverview {
+  id      String  @id @default(cuid())
+  feature String
+  content String?
+  order   Int
+
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
