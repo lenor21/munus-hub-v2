@@ -31,6 +31,9 @@ export async function getProjects(
     include: {
       teamMembers: { include: { user: true } },
     },
+    orderBy: {
+      createdAt: "asc",
+    },
   });
 }
 
@@ -44,6 +47,11 @@ export async function getProject(id: string) {
         teamMembers: {
           include: {
             user: true,
+          },
+        },
+        projectOverviews: {
+          orderBy: {
+            createdAt: "asc",
           },
         },
       },

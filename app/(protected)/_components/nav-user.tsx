@@ -1,7 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
-
 import { LogoutButton } from "@/components/auth/logout-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {

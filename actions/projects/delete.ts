@@ -2,7 +2,6 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { success } from "zod";
 
 export async function deleteProject(id: string) {
   try {
@@ -17,5 +16,21 @@ export async function deleteProject(id: string) {
     return { success: "Project deleted successfully!" };
   } catch (error) {
     return { error: "Something went wrong. Could not delete project!" };
+  }
+}
+
+export async function deleteOverview(id: string) {
+  try {
+    await prisma.projectOverview.delete({
+      where: {
+        id,
+      },
+    });
+
+    revalidatePath("/projects");
+
+    return { success: "Overview deleted successfully!" };
+  } catch (error) {
+    return { error: "Something went wrong. Could not delete overview!" };
   }
 }

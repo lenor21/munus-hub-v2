@@ -73,3 +73,18 @@ export async function updateProject(
     return { error: "Something went wrong during the update." };
   }
 }
+
+export async function updateOverview(id: string, feature: string) {
+  try {
+    await prisma.projectOverview.update({
+      where: { id },
+      data: { feature },
+    });
+
+    revalidatePath(`/projects`);
+
+    return { success: "Feature updated successfully!" };
+  } catch (error) {
+    return { error: "Failed to update feature." };
+  }
+}

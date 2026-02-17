@@ -9,7 +9,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { SquarePen, Check } from "lucide-react";
+import { SquarePen, Check, Trash } from "lucide-react";
 import { useState, useTransition } from "react";
 import {
   Field,
@@ -27,8 +27,31 @@ import {
 } from "@/components/ui/input-group";
 import { createOverview } from "@/actions/projects";
 import { toast } from "sonner";
+import { CircleCheckBig } from "lucide-react";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { OverviewRow } from "./overview-row";
 
-export function Overview({ projectId }: { projectId: string }) {
+type OverviewItem = {
+  id: string;
+  feature: string;
+};
+
+type OverviewProps = {
+  projectId: string;
+  overview: OverviewItem[];
+};
+
+export function Overview({ projectId, overview }: OverviewProps) {
   const [canEdit, setCanEdit] = useState(false);
   const [feature, setFeature] = useState("");
   const [isPending, startTransition] = useTransition();
@@ -74,8 +97,29 @@ export function Overview({ projectId }: { projectId: string }) {
           </Button>
         )}
       </CardHeader>
-      <CardContent className="text-muted-foreground text-sm">
-        You have 12 active projects and 3 pending tasks.
+      <CardContent className="text-muted-foreground text-sm flex flex-col gap-y-2">
+        {!canEdit
+          ? overview?.map((data) => {
+              return (
+                <div key={data.id} className="px-2 py-2 rounded-sm">
+                  <div className="flex items-start gap-x-2">
+                    <CircleCheckBig className="w-5 color-[#f00] text-[#e7000b] shrink-0" />
+                    <p className="text-[#171717] leading-relaxed">
+                      {data.feature}
+                    </p>
+                  </div>
+                </div>
+              );
+            })
+          : overview?.map((data) => {
+              return (
+                <OverviewRow
+                  key={data.id}
+                  feature={data.feature}
+                  id={data.id}
+                />
+              );
+            })}
       </CardContent>
 
       {canEdit && (

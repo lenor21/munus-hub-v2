@@ -123,7 +123,7 @@ export default async function ProjectDetailPage({ params }: Props) {
               {project.teamMembers.length}{" "}
               {project.teamMembers.length <= 1 ? "member" : "members"}
             </p>
-            <p className="text-xs text-muted-foreground">Spent: N/A</p>
+            <p className="text-xs text-muted-foreground">N/A</p>
           </CardContent>
         </Card>
 
@@ -153,7 +153,10 @@ export default async function ProjectDetailPage({ params }: Props) {
             <TabsTrigger value="documents">Documents</TabsTrigger>
           </TabsList>
           <TabsContent value="overview">
-            <Overview projectId={project.id} />
+            <Overview
+              projectId={project.id}
+              overview={project.projectOverviews || []}
+            />
           </TabsContent>
           <TabsContent value="team">
             <Card>
