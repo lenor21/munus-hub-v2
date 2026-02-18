@@ -48,6 +48,9 @@ export async function getProject(id: string) {
           include: {
             user: true,
           },
+          orderBy: {
+            id: "asc",
+          },
         },
         projectOverviews: {
           orderBy: {

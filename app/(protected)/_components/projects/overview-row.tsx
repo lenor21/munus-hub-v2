@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { SquarePen, Check, Trash } from "lucide-react";
 import { useState, useTransition } from "react";

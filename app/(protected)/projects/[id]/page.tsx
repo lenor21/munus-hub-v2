@@ -23,7 +23,6 @@ export default async function ProjectDetailPage({ params }: Props) {
   const { id } = await params;
 
   const [project, users] = await Promise.all([getProject(id), getUsers()]);
-  console.log(project);
 
   if (!project || "error" in project) {
     return <div>Project not found</div>;

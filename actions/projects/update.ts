@@ -88,3 +88,30 @@ export async function updateOverview(id: string, feature: string) {
     return { error: "Failed to update feature." };
   }
 }
+
+export async function updateRole(
+  projectId: string,
+  userId: string,
+  newRole: string,
+) {
+  try {
+    const updatedMember = await prisma.projectMember.update({
+      where: {
+        userId_projectId: {
+          userId: userId,
+          projectId: projectId,
+        },
+      },
+
+      data: {
+        role: newRole,
+      },
+    });
+
+    revalidatePath(`/projects`);
+
+    return { success: "Role updated successfully!", data: updatedMember };
+  } catch (error) {
+    return { error: "Failed to update role." };
+  }
+}

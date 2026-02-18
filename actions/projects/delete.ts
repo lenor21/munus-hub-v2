@@ -34,3 +34,19 @@ export async function deleteOverview(id: string) {
     return { error: "Something went wrong. Could not delete overview!" };
   }
 }
+
+export async function deleteMember(id: string) {
+  try {
+    await prisma.projectMember.delete({
+      where: {
+        id,
+      },
+    });
+
+    revalidatePath("/projects");
+
+    return { success: "Member deleted successfully!" };
+  } catch (error) {
+    return { error: "Something went wrong. Could not delete member!" };
+  }
+}
