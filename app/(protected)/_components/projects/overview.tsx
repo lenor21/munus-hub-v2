@@ -28,17 +28,6 @@ import {
 import { createOverview } from "@/actions/projects";
 import { toast } from "sonner";
 import { CircleCheckBig } from "lucide-react";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Textarea } from "@/components/ui/textarea";
 import { OverviewRow } from "./overview-row";
 
 type OverviewItem = {

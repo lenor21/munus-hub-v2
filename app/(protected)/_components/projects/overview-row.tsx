@@ -64,7 +64,7 @@ export function OverviewRow({ feature, id }: { feature: string; id: string }) {
   };
 
   return (
-    <div className="border px-3 py-4 rounded-sm grid grid-cols-[1fr_auto] gap-x-4">
+    <div className="border px-3 py-4 rounded-sm grid grid-cols-[1fr_auto] gap-x-4 bg-white shadow-sm">
       <div className="flex items-start gap-x-2">
         <CircleCheckBig className="w-5 text-[#e7000b] shrink-0" />
         <p className="text-[#171717] leading-relaxed">{feature}</p>
@@ -72,7 +72,11 @@ export function OverviewRow({ feature, id }: { feature: string; id: string }) {
       <div className="flex items-center gap-x-1">
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger asChild>
-            <Button variant="outline" size="icon" className="h-8 w-8">
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 text-[#171717]"
+            >
               <SquarePen className="w-4 h-4" />
             </Button>
           </DialogTrigger>
@@ -105,7 +109,6 @@ export function OverviewRow({ feature, id }: { feature: string; id: string }) {
           </DialogContent>
         </Dialog>
 
-        {/* Delete Button placeholder */}
         <Button
           variant="outline"
           size="icon"

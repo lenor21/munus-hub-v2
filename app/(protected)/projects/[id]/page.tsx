@@ -13,6 +13,7 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Overview } from "@/app/(protected)/_components/projects/overview";
+import { TeamMembers } from "../../_components/projects/team-members";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -22,6 +23,7 @@ export default async function ProjectDetailPage({ params }: Props) {
   const { id } = await params;
 
   const [project, users] = await Promise.all([getProject(id), getUsers()]);
+  console.log(project);
 
   if (!project || "error" in project) {
     return <div>Project not found</div>;
@@ -144,7 +146,7 @@ export default async function ProjectDetailPage({ params }: Props) {
         </Card>
       </div>
 
-      <div className="mt-10">
+      <div className="mt-10 mb-10">
         <Tabs defaultValue="overview" className="w-full gap-5">
           <TabsList>
             <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -161,14 +163,16 @@ export default async function ProjectDetailPage({ params }: Props) {
           <TabsContent value="team">
             <Card>
               <CardHeader>
-                <CardTitle>Analytics</CardTitle>
+                <CardTitle>Team Members</CardTitle>
                 <CardDescription>
-                  Track performance and user engagement metrics. Monitor trends
-                  and identify growth opportunities.
+                  People working on this project
                 </CardDescription>
               </CardHeader>
               <CardContent className="text-muted-foreground text-sm">
-                Page views are up 25% compared to last month.
+                <TeamMembers
+                  projectId={project.id}
+                  teamMembers={project.teamMembers || []}
+                />
               </CardContent>
             </Card>
           </TabsContent>
