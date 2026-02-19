@@ -389,7 +389,8 @@ export const ModelName = {
   VerificationToken: 'VerificationToken',
   Project: 'Project',
   ProjectMember: 'ProjectMember',
-  ProjectOverview: 'ProjectOverview'
+  ProjectOverview: 'ProjectOverview',
+  ProjectTimeline: 'ProjectTimeline'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -405,7 +406,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "verificationToken" | "project" | "projectMember" | "projectOverview"
+    modelProps: "user" | "account" | "verificationToken" | "project" | "projectMember" | "projectOverview" | "projectTimeline"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -853,6 +854,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ProjectTimeline: {
+      payload: Prisma.$ProjectTimelinePayload<ExtArgs>
+      fields: Prisma.ProjectTimelineFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ProjectTimelineFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTimelinePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ProjectTimelineFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTimelinePayload>
+        }
+        findFirst: {
+          args: Prisma.ProjectTimelineFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTimelinePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ProjectTimelineFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTimelinePayload>
+        }
+        findMany: {
+          args: Prisma.ProjectTimelineFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTimelinePayload>[]
+        }
+        create: {
+          args: Prisma.ProjectTimelineCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTimelinePayload>
+        }
+        createMany: {
+          args: Prisma.ProjectTimelineCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ProjectTimelineCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTimelinePayload>[]
+        }
+        delete: {
+          args: Prisma.ProjectTimelineDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTimelinePayload>
+        }
+        update: {
+          args: Prisma.ProjectTimelineUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTimelinePayload>
+        }
+        deleteMany: {
+          args: Prisma.ProjectTimelineDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ProjectTimelineUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ProjectTimelineUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTimelinePayload>[]
+        }
+        upsert: {
+          args: Prisma.ProjectTimelineUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTimelinePayload>
+        }
+        aggregate: {
+          args: Prisma.ProjectTimelineAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProjectTimeline>
+        }
+        groupBy: {
+          args: Prisma.ProjectTimelineGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProjectTimelineGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ProjectTimelineCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProjectTimelineCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -977,6 +1052,20 @@ export const ProjectOverviewScalarFieldEnum = {
 } as const
 
 export type ProjectOverviewScalarFieldEnum = (typeof ProjectOverviewScalarFieldEnum)[keyof typeof ProjectOverviewScalarFieldEnum]
+
+
+export const ProjectTimelineScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  status: 'status',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  projectId: 'projectId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProjectTimelineScalarFieldEnum = (typeof ProjectTimelineScalarFieldEnum)[keyof typeof ProjectTimelineScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1179,6 +1268,7 @@ export type GlobalOmitConfig = {
   project?: Prisma.ProjectOmit
   projectMember?: Prisma.ProjectMemberOmit
   projectOverview?: Prisma.ProjectOverviewOmit
+  projectTimeline?: Prisma.ProjectTimelineOmit
 }
 
 /* Types for Logging */

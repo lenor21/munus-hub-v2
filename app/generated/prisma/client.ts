@@ -69,3 +69,8 @@ export type ProjectMember = Prisma.ProjectMemberModel
  * 
  */
 export type ProjectOverview = Prisma.ProjectOverviewModel
+/**
+ * Model ProjectTimeline
+ * 
+ */
+export type ProjectTimeline = Prisma.ProjectTimelineModel

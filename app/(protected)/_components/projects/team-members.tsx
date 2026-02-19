@@ -1,6 +1,13 @@
 "use client";
 
 import { MemberCard } from "@/app/(protected)/_components/projects/member-card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 
 type User = {
   id: string;
@@ -23,10 +30,18 @@ type TeamMembersProps = {
 
 export function TeamMembers({ projectId, teamMembers }: TeamMembersProps) {
   return (
-    <div className="grid grid-cols-3 gap-4">
-      {teamMembers.map((data) => (
-        <MemberCard key={data.id} data={data} projectId={projectId} />
-      ))}
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Team Members</CardTitle>
+        <CardDescription>People working on this project</CardDescription>
+      </CardHeader>
+      <CardContent className="text-muted-foreground text-sm">
+        <div className="grid grid-cols-3 gap-4">
+          {teamMembers.map((data) => (
+            <MemberCard key={data.id} data={data} projectId={projectId} />
+          ))}
+        </div>
+      </CardContent>
+    </Card>
   );
 }

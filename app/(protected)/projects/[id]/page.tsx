@@ -13,7 +13,8 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Overview } from "@/app/(protected)/_components/projects/overview";
-import { TeamMembers } from "../../_components/projects/team-members";
+import { TeamMembers } from "@/app/(protected)/_components/projects/team-members";
+import { Timeline } from "@/app/(protected)/_components/projects/timeline";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -160,34 +161,20 @@ export default async function ProjectDetailPage({ params }: Props) {
             />
           </TabsContent>
           <TabsContent value="team">
-            <Card>
-              <CardHeader>
-                <CardTitle>Team Members</CardTitle>
-                <CardDescription>
-                  People working on this project
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="text-muted-foreground text-sm">
-                <TeamMembers
-                  projectId={project.id}
-                  teamMembers={project.teamMembers || []}
-                />
-              </CardContent>
-            </Card>
+            <TeamMembers
+              projectId={project.id}
+              teamMembers={project.teamMembers || []}
+            />
           </TabsContent>
           <TabsContent value="timeline">
-            <Card>
-              <CardHeader>
-                <CardTitle>Reports</CardTitle>
-                <CardDescription>
-                  Generate and download your detailed reports. Export data in
-                  multiple formats for analysis.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="text-muted-foreground text-sm">
-                You have 5 reports ready and available to export.
-              </CardContent>
-            </Card>
+            <Timeline
+              projectId={project.id}
+              projectData={{
+                ...project,
+                startDate: project.startDate ?? new Date(),
+                endDate: project.endDate ?? new Date(),
+              }}
+            />
           </TabsContent>
           <TabsContent value="documents">
             <Card>
