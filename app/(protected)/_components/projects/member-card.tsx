@@ -133,7 +133,7 @@ export function MemberCard({
               Message
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-sm">
+          <DialogContent className="sm:max-w-lg">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-x-2">
                 <MessageCircle className="h-5 w-5" />
@@ -190,7 +190,7 @@ export function MemberCard({
                 <Pencil className="h-4 w-4" />
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-sm">
+            <DialogContent className="sm:max-w-lg">
               <form onSubmit={handleUpdateRole}>
                 <DialogHeader>
                   <DialogTitle className="flex items-center gap-x-2">

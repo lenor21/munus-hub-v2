@@ -82,7 +82,7 @@ export function OverviewRow({ feature, id }: { feature: string; id: string }) {
               <SquarePen className="w-4 h-4" />
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-sm">
+          <DialogContent className="sm:max-w-lg">
             <form onSubmit={handleUpdate}>
               <DialogHeader>
                 <DialogTitle>Edit overview</DialogTitle>
